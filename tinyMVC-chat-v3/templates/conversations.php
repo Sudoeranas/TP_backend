@@ -69,9 +69,12 @@ else {
 
 		//TODO : proposer des formulaires de gestion de conversations
 		$listConv = listerConversations();
+		
+		// on récupère un éventuel idConv renvoyé par le controleur  
+		$idConv = valider("idConv");
 
 		mkForm("controleur.php");
-		mkSelect("idConv", $listConv,"id", "theme",false,"active");
+		mkSelect("idConv", $listConv,"id", "theme",$idConv,"active");
 		mkInput("submit","action","Archiver");
 		mkInput("submit","action","Activer");
 		mkInput("submit","action","Supprimer Conversation");
