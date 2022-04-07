@@ -73,6 +73,13 @@ session_start();
 			case 'Poster' : 			 
 			break;
 
+			case 'activer' :
+				if($idconfig = valider("idConv")){
+					reactiverConversation($idconfig);
+				}
+				$qs="?view=conversation&idConv$idConv";
+				break;
+
 
 		}
 
