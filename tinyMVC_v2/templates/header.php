@@ -39,6 +39,10 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 //TODO: Si l'utilisateur n'est pas connecte, on affiche un lien de connexion 
 if ( ! valider("connecte","SESSION")) {
 	echo '<a href="index.php?view=connexion">Connexion</a>';
+} else {
+	// INSUFFISANT POUR EMPECHER L'ACCES A LA PAGE DES CONVERSATIONS !!
+	// NEVER TRUST USER INPUT 
+	echo '<a href="index.php?view=conversations">Conversations</a>';
 }
 ?>
 

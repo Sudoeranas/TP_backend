@@ -9,6 +9,7 @@ Dans ce fichier, on définit diverses fonctions permettant de récupérer des do
 
 
 // inclure ici la librairie faciliant les requêtes SQL
+include_once("maLibSQL.pdo.php");
 
 
 function listerUtilisateurs($classe = "both")
@@ -107,36 +108,52 @@ function listerUtilisateursConnectes()
 	// Liste les utilisteurs connectes
 }
 
-function listerConversations($mode="tout")
-{
+function listerConversations($mode="tout") {
 	// Liste toutes les conversations ($mode="tout")
 	// OU uniquement celles actives  ($mode="actives"), ou inactives  ($mode="inactives")
+	$SQL = "SELECT * FROM conversations "; 
+	if ($mode=="actives") $SQL .= " WHERE active=1";
+	if ($mode=="inactives") $SQL .= " WHERE active=0"; 
+	
+	return parcoursRs(SQLSelect($SQL));
 }
 
-function archiverConversation($idConversation)
-{
+function archiverConversation($idConversation) {
 	// rend une conversation inactive
+	$SQL="UPDATE conversations SET active=0 WHERE id='$idConversation'"; 
+	SQLUpdate($SQL); 
 }
 
-function creerConversation($theme)
-{
+function creerConversation($theme) {
 	// crée une nouvelle conversation et renvoie son identifiant
+	$SQL="INSERT INTO conversations(theme) VALUES ('$theme')"; 
+	return SQLInsert($SQL); 
 }
 
-function reactiverConversation($idConversation)
-{	
+function reactiverConversation($idConversation) {	
 	// rend une conversation active
+	$SQL="UPDATE conversations SET active=1 WHERE id='$idConversation'";
+	SQLUpdate($SQL); 
 
 }
 
-function supprimerConversation($idConv)
-{
+function supprimerConversation($idConv) {
 	// supprime une conversation et ses messages
 
 	// NB : on aurait pu aussi demander à mysql de supprimer automatiquement
 	// les messages lorsqu'une conversation est supprimée, 
 	// en déclarant idConversation comme clé étrangère vers le champ id de la table 
 	// des conversations et en définissant un trigger
+	
+	// merdique : il est préférable d'appliquer des contraintes d'intégrité référentielle
+	// depuis le moteur de base de données 
+	$SQL="DELETE FROM messages WHERE idConversation='$idConv'"; 
+	SQLDelete($SQL);
+	
+	$SQL="DELETE FROM conversations WHERE id='$idConv'"; 
+	SQLDelete($SQL);
+	
+	 
 }
 
 

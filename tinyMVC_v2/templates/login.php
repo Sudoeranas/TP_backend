@@ -12,11 +12,18 @@ $login = valider("login", "COOKIE");
 $passe = valider("passe", "COOKIE"); 
 if ($checked = valider("remember", "COOKIE")) $checked = "checked"; 
 
+
+// Si un message est présent dans la chaine de requete, on l'affiche 
+if ($msg = valider("msg")) {
+	$msg = '<h2 style="color:red;">' . $msg  . "</h2>";
+}
 ?>
 
 <div id="corps">
 
 <h1>Connexion</h1>
+
+<?php if ($msg) echo $msg; ?>
 
 <div id="formLogin">
 <form action="controleur.php" method="GET">

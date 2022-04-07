@@ -16,7 +16,9 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
 // tprint($_SESSION);
 
 if (valider("connecte","SESSION")) {
-	echo "User " . $_SESSION["pseudo"] . " connecte depuis "
+	echo "User " . $_SESSION["pseudo"] ; 
+	if ($_SESSION["isAdmin"]) echo " (admin) "; 
+	echo " connecte depuis "
 			. $_SESSION["heureConnexion"] . " "; 
 	echo '<a href="controleur.php?action=logout">Me déconnecter</a>'; 
 }
