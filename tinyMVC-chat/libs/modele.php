@@ -9,15 +9,6 @@ Dans ce fichier, on définit diverses fonctions permettant de récupérer des do
 
 
 // inclure ici la librairie faciliant les requêtes SQL
-include_once "maLibSQL.pdo.php";
-
-// maLibSQL.pdo.php contient les fonctions suivantes 
-// SQLSelect($SQL) exécute req. + renvoie les enregistrements trouvés (ou false)
-// SQLGetChamp($SQL) exécute req. + renvoie la valeur trouvée (ou false)
-// SQLUpdate($SQL) exécute req. + renvoie nb enregistrements modifiés 
-// SQLInsert($SQL) exécute req. + renvoie l'identifiant auto-généré de l'enregistrement inséré 
-// SQLDelete($SQL) exécute req. + renvoie nb enregistrements modifiés 
-// $tabPhp = parcoursRs($recordset)
 
 
 function listerUtilisateurs($classe = "both")
@@ -26,20 +17,6 @@ function listerUtilisateurs($classe = "both")
 	// et renvoie un tableau d'enregistrements. 
 	// Chaque enregistrement est un tableau associatif contenant les champs 
 	// id,pseudo,blacklist,connecte,couleur
-	
-	$SQL = "SELECT id,pseudo,blacklist,connecte,couleur FROM users"; 
-	if ($classe == "bl") 
-		$SQL = $SQL . " WHERE blacklist=1";
-	elseif ($classe == "nbl") 
-			$SQL .= " WHERE blacklist=0";
-			
-	//echo $SQL;
-	
-	$recordset = SQLSelect($SQL); 
-	$tab = parcoursRs($recordset); 
-	
-	return $tab; 
-	// Lorsque la variable $classe vaut "both", elle renvoie tous les utilisateurs
 
 	// Lorsque la variable $classe vaut "both", elle renvoie tous les utilisateurs
 	// Lorsqu'elle vaut "bl", elle ne renvoie que les utilisateurs blacklistés
@@ -51,7 +28,6 @@ function listerUtilisateurs($classe = "both")
 function interdireUtilisateur($idUser)
 {
 	// cette fonction affecte le booléen "blacklist" à vrai pour l'utilisateur concerné 
-	$SQL = "UPDATE users SET blacklist=1 WHERE";
 }
 
 function autoriserUtilisateur($idUser)
@@ -174,6 +150,9 @@ function listerMessages($idConv,$format="asso")
 	// Liste les messages de cette conversation, au format JSON ou tableau associatif
 	// Champs à extraire : contenu, auteur, couleur 
 	// en ne renvoyant pas les utilisateurs blacklistés
+	
+	// SELECT m.id as idMessage, u.id as idAuteur, m.contenu, u.pseudo as auteur, u.couleur FROM messages m INNER JOIN users u ON m.idAuteur = u.id WHERE m.idConversation=1 AND u.blacklist=0 ORDER BY m.id ASC 
+
 	
 }
 
